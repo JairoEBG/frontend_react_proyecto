@@ -1,0 +1,76 @@
+import React, { useState } from 'react';
+
+function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLogin, setIsLogin] = useState(false);
+  const [loginError, setLoginError] = useState(false);
+
+  const handleInputChange = (event) => {
+    if (event.target.name === 'username') {
+      setUsername(event.target.value);
+    } else if (event.target.name === 'password') {
+      setPassword(event.target.value);
+    }
+  };
+
+  const handleLogin = () => {
+    const credentials = {
+      user_name: username,
+      password: password
+    };
+
+    fetch('http://localhost:3000/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(credentials)
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Inicio de sesión exitoso
+          setIsLogin(true);
+          setLoginError(false);
+        } else {
+          // Error de inicio de sesión
+          setIsLogin(false);
+          setLoginError(true);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        setIsLogin(false);
+        setLoginError(true);
+      });
+  };
+
+  if (isLogin) {
+    return window.location.href = '/orders';
+  }
+
+  return (
+    <div>
+      <h1>Login</h1>
+      <input
+        type="text"
+        name="username"
+        value={username}
+        onChange={handleInputChange}
+        placeholder="Username"
+      />
+      <input
+        type="password"
+        name="password"
+        value={password}
+        onChange={handleInputChange}
+        placeholder="Password"
+      />
+      <button onClick={handleLogin}>Login</button>
+      {loginError && <p>Error de inicio de sesión. Verifica tus credenciales.</p>}
+    </div>
+  );
+}
+
+export default Login;

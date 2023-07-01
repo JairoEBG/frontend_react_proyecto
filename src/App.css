@@ -36,3 +36,44 @@
     transform: rotate(360deg);
   }
 }
+
+.Header{
+  text-align: center;
+  color: lightseagreen
+}
+
+.Main-page {  
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: lightseagreen
+}
+
+.Error{  
+  color: red;
+  font-size: medium;  
+}
+
+.Input-error{
+  border: 1px solid red;
+  color: red;
+  background: rosybrown;
+}
+
+.in_time{
+  color: green;
+  text-transform: capitalize;
+}
+
+.over_time{
+  color: yellow;
+  text-transform: capitalize;
+}
+
+.delayed{
+  color: red;
+  text-transform: capitalize;
+}
