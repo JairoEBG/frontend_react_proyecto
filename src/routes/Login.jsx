@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
 function Login() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLogin, setIsLogin] = useState(false);
   const [loginError, setLoginError] = useState(false);
 
   const handleInputChange = (event) => {
-    if (event.target.name === 'username') {
-      setUsername(event.target.value);
+    if (event.target.name === 'email') {
+      setEmail(event.target.value);
     } else if (event.target.name === 'password') {
       setPassword(event.target.value);
     }
@@ -16,11 +16,13 @@ function Login() {
 
   const handleLogin = () => {
     const credentials = {
-      user_name: username,
+      email: email,
       password: password
     };
 
-    fetch('http://localhost:3000/api/login', {
+    const path = 'api/users';
+
+    fetch(`${process.env.REACT_APP_API_URL}/${path}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -55,10 +57,10 @@ function Login() {
       <h1>Login</h1>
       <input
         type="text"
-        name="username"
-        value={username}
+        name="email"
+        value={email}
         onChange={handleInputChange}
-        placeholder="Username"
+        placeholder="email"
       />
       <input
         type="password"
