@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -20,7 +21,7 @@ function Login() {
       password: password
     };
 
-    const path = 'api/users';
+    const path = 'api/sessions';
 
     fetch(`${process.env.REACT_APP_API_URL}/${path}`, {
       method: 'POST',
@@ -31,12 +32,11 @@ function Login() {
     })
       .then(response => response.json())
       .then(data => {
-        if (data.success) {
-          // Inicio de sesión exitoso
+        console.log(JSON.stringify(data));
+        if (data.message) {
           setIsLogin(true);
           setLoginError(false);
         } else {
-          // Error de inicio de sesión
           setIsLogin(false);
           setLoginError(true);
         }
@@ -48,9 +48,11 @@ function Login() {
       });
   };
 
-  if (isLogin) {
-    return window.location.href = '/orders';
-  }
+  useEffect(() => {
+    if (isLogin) {
+      return window.location.href = '/orders';
+    }
+  }, [isLogin]);
 
   return (
     <div>
@@ -67,7 +69,7 @@ function Login() {
         name="password"
         value={password}
         onChange={handleInputChange}
-        placeholder="Password"
+        placeholder="password"
       />
       <button onClick={handleLogin}>Login</button>
       {loginError && <p>Error de inicio de sesión. Verifica tus credenciales.</p>}
